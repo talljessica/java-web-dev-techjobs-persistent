@@ -28,6 +28,7 @@ public class SkillController {
 
     @GetMapping("add")
     public String displayAddSkillForm(Model model) {
+        model.addAttribute("title", "Add Skill");
         model.addAttribute(new Skill());
         return "skills/add";
     }
@@ -37,6 +38,7 @@ public class SkillController {
                                       Errors errors, Model model) {
 
         if (errors.hasErrors()) {
+            model.addAttribute("title", "Add Skill");
             return "skills/add";
         }
         skillRepository.save(newSkill);
@@ -48,8 +50,9 @@ public class SkillController {
 
         Optional optionalSkill = skillRepository.findById(skillId);
         if (optionalSkill.isPresent()) {
-            Employer skill = (Employer) optionalSkill.get();
+            Skill skill = (Skill) optionalSkill.get();
             model.addAttribute("skill", skill);
+            model.addAttribute("title", "Skill: " + skill.getName());
             return "skills/view";
         } else {
             return "redirect:../";
